@@ -1,0 +1,12 @@
+pipeline{
+    agent any
+    tools {
+        Nodejs '/usr/bin'
+    }
+    stages{
+        stage('dependencies'){
+            sh 'npm install'
+        }
+    }
+
+}
