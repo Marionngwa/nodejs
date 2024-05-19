@@ -1,6 +1,0 @@
-sonar-scanner \
-  -Dsonar.organization=marionngwa \
-  -Dsonar.projectKey=Marionngwa_nodejs \
-  -Dsonar.sources=. \
-  -Dsonar.login=9d1bb5337eda8adab94295b8377bcd07d70964d9
-  -Dsonar.host.url=https://sonarcloud.io
