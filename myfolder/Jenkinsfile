@@ -1,7 +1,7 @@
 pipeline {
     agent any
-    tools {
-        nodejs 'nodejs'
+    environment {
+        PATH = "/usr/bin:${env.PATH}"
     }
     stages {
         stage('dependencies') {
