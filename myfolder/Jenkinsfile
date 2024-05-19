@@ -1,12 +1,13 @@
-pipeline{
+pipeline {
     agent any
     tools {
-        Nodejs '/usr/bin'
+        nodejs '/usr/bin'
     }
-    stages{
-        stage('dependencies'){
-            sh 'npm install'
+    stages {
+        stage('dependencies') {
+            steps {
+                sh 'npm install'
+            }
         }
     }
-
 }
