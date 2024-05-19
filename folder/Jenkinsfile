@@ -11,7 +11,7 @@ pipeline {
                 script {
                     sh 'npm install'
                     sh '''
-                        sonar-scanner \
+                        /opt/sonar-scanner \
                         -Dsonar.organization=marionngwa \
                         -Dsonar.projectKey=Marionngwa_nodejs \
                         -Dsonar.sources=. \
