@@ -9,12 +9,11 @@ pipeline {
                 sh 'npm install'
             }
         }
-
-        stage('building the code') {
+        stage('start the app'){
             steps {
-                sh 'npm start'
+                sh 'npm package'
             }
         }
-
+        
     }
 }
