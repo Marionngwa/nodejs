@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        nodejs '/usr/bin'
+        nodejs 'nodejs'
     }
     stages {
         stage('dependencies') {
