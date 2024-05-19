@@ -1,14 +1,22 @@
 pipeline {
     agent any
 
-    stages{
-        stage('sonarqube analysis'){
-            steps{
-                nodejs(nodeJSInstallationName: 'nodejs'){
+    tools {
+        nodejs 'nodejs' 
+    }
+
+    stages {
+        stage('SonarQube Analysis') {
+            steps {
+                script {
                     sh 'npm install'
-                    withSonarQubeEnv('sonarqube'){
-                        sh 'npm run sonar'
-                    }
+                    sh '''
+                        sonar-scanner \
+                        -Dsonar.organization=marionngwa \
+                        -Dsonar.projectKey=Marionngwa_nodejs \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=https://sonarcloud.io
+                    '''
                 }
             }
         }
