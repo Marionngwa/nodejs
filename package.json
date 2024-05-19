@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node index.cjs",
-    "test": "npx mocha test/end-to-end.test.mjs"
+    "test": "npx mocha test/end-to-end.test.mjs",
+    "sonar": "sonar-scanner"
   },
   "author": "Utrains",
   "license": "ISC",
@@ -19,4 +20,6 @@
     "mocha": "^10.4.0",
     "puppeteer": "^22.7.1"
   }
+
 }
+
