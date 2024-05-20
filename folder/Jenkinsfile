@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'nodejs' 
+        // Specify a specific version of Node.js compatible with your GLIBC version
+        nodejs 'nodejs-v14.17.6'
     }
 
     stages {
@@ -25,7 +26,7 @@ pipeline {
                 }
             }
         }
-        stage('start the app') {
+        stage('Start the app') {
             steps {
                 sh 'npm pack'
             }
