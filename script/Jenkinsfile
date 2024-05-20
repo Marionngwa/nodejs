@@ -22,16 +22,9 @@ pipeline {
             }
             steps {
                 script {
-                    // Use Java 8 for SonarQube analysis
-                    sh '''
-                        export PATH="${JAVA_HOME}/bin:${PATH}"
-                        /opt/sonar-scanner/bin/sonar-scanner -X \
-                        -Dsonar.organization=marionngwa \
-                        -Dsonar.projectKey=Marionngwa_nodejs \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=https://sonarcloud.io \
-                        -Dsonar.login=${SONAR_TOKEN}
-                    '''
+                    def scannerHome = tool 'SonarScanner'
+                    def scannerCmd = "${scannerHome}/bin/sonar-scanner"
+                    sh "${scannerCmd} -Dsonar.organization=marionngwa -Dsonar.projectKey=Marionngwa_nodejs -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_TOKEN}"
                 }
             }
         }
