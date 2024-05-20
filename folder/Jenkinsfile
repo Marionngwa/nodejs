@@ -15,6 +15,11 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
+                // Add SonarScanner bin directory to PATH
+                script {
+                    env.PATH = "/opt/sonar-scanner/bin:${env.PATH}"
+                }
+                // Run SonarScanner
                 withSonarQubeEnv('sonarqube') {
                     sh 'sonar-scanner'
                 }
