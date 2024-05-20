@@ -19,7 +19,7 @@ pipeline {
                     env.PATH = "/opt/sonar-scanner/bin:${env.PATH}"
                 }
                 withSonarQubeEnv('sonarqube') {
-                    sh 'sonar-scanner -X \
+                    sh 'sonar-scanner \
                         -Dsonar.organization=marionngwa \
                         -Dsonar.projectKey=Marionngwa_nodejs'
                 }
