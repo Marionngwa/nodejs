@@ -3,8 +3,7 @@ pipeline {
 
     tools {
         nodejs 'nodejs'
-        // Define Java 8 installation
-        jdk 'java8'
+        
     }
 
     stages {
