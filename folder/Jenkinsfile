@@ -15,13 +15,13 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-            
                 script {
                     env.PATH = "/opt/sonar-scanner/bin:${env.PATH}"
                 }
                 withSonarQubeEnv('sonarqube') {
-                    sh 'sonar-scanner -X'
-                    
+                    sh 'sonar-scanner -X \
+                        -Dsonar.organization=marionngwa \
+                        -Dsonar.projectKey=Marionngwa_nodejs'
                 }
             }
         }
@@ -30,7 +30,5 @@ pipeline {
                 sh 'npm pack'
             }
         }
-
-
     }
 }
