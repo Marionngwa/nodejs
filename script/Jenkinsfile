@@ -21,7 +21,7 @@ pipeline {
             }
             steps {
                 script {
-                    def scannerHome = tool 'SonarScanner'
+                    def scannerHome = tool 'sonar-scanner'
                     def scannerCmd = "${scannerHome}/bin/sonar-scanner"
                     sh "${scannerCmd} -Dsonar.organization=marionngwa -Dsonar.projectKey=Marionngwa_nodejs -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_TOKEN}"
                 }
