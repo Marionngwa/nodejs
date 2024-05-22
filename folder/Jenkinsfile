@@ -7,6 +7,11 @@ pipeline {
     }
 
     stages {
+        stage('Cleanup Previous Artifacts') {
+            steps {
+                sh 'rm -f *.tgz'
+            }
+        }
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
@@ -15,6 +20,13 @@ pipeline {
         stage('Packaging The Artifact') {
             steps {
                 sh 'npm pack'
+            }
+        }
+        stage('Artifact Upload') {
+            steps {
+                sh 'curl -uadmin:AP6APkHxetchhfhHqpaawMctMhu -T \
+                *.tgz \
+                "http://ec2-3-83-18-39.compute-1.amazonaws.com:8081/artifactory/geolocation/utc-app{BUILD_ID}.tgz"'
             }
         }
     }
