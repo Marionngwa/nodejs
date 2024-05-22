@@ -25,8 +25,8 @@ pipeline {
         stage('Artifact Upload') {
             steps {
                 sh 'curl -uadmin:AP6APkHxetchhfhHqpaawMctMhu -T \
-                *.tgz\ 
-                "http://ec2-3-83-18-39.compute-1.amazonaws.com:8081/artifactory/example-repo-local/*.tgz"'
+                *.tgz \ 
+                "http://ec2-3-83-18-39.compute-1.amazonaws.com:8081/artifactory/example-repo-local/"'
             }
         }
     }
