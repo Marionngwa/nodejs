@@ -1,34 +1,16 @@
 pipeline {
     agent any
 
-    tools {
-        // Specify a specific version of Node.js compatible with your GLIBC version
-        nodejs 'nodejs-v14.17.6'
-    }
-
     stages {
         stage('Install Dependencies') {
-            steps {
-                script {
-                    sh 'npm install'
+            agent {
+                docker {
+                    image 'node:14'
+                    args '-u root:root'
                 }
             }
-        }
-        stage('SonarQube Analysis') {
             steps {
-                script {
-                    env.PATH = "/opt/sonar-scanner/bin:${env.PATH}"
-                }
-                withSonarQubeEnv('sonarqube') {
-                    sh 'sonar-scanner \
-                        -Dsonar.organization=marionngwa \
-                        -Dsonar.projectKey=Marionngwa_nodejs'
-                }
-            }
-        }
-        stage('Start the app') {
-            steps {
-                sh 'npm pack'
+                sh 'npm install'
             }
         }
     }
