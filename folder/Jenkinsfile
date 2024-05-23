@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:14'
-            args '-u root:root'
-        }
-    }
+    agent any
 
     environment {
         SONAR_TOKEN = credentials('sonarqube') // Replace with your SonarQube token ID in Jenkins credentials
@@ -12,20 +7,41 @@ pipeline {
 
     stages {
         stage('Cleanup Previous Artifacts') {
+            agent {
+                docker {
+                    image 'node:14'
+                    args '-u root:root'
+                }
+            }
             steps {
                 sh 'rm -f *.tgz'
             }
         }
 
         stage('Install Dependencies') {
+            agent {
+                docker {
+                    image 'node:14'
+                    args '-u root:root'
+                }
+            }
             steps {
                 sh 'npm install'
             }
         }
 
         stage('SonarQube Scan') {
+            agent {
+                docker {
+                    image 'node:14'
+                    args '-u root:root'
+                }
+            }
             steps {
                 script {
+                    // Install SonarQube Scanner
+                    sh 'npm install -g sonar-scanner'
+
                     def nodePath = sh(script: 'which node', returnStdout: true).trim()
                     // Execute SonarScanner
                     sh """
@@ -42,12 +58,24 @@ pipeline {
         }
 
         stage('Packaging The Artifact') {
+            agent {
+                docker {
+                    image 'node:14'
+                    args '-u root:root'
+                }
+            }
             steps {
                 sh 'npm pack'
             }
         }
-        
+
         stage('Artifact Upload') {
+            agent {
+                docker {
+                    image 'node:14'
+                    args '-u root:root'
+                }
+            }
             steps {
                 sh '''
                 curl -u admin:AP6APkHxetchhfhHqpaawMctMhu -T \
@@ -56,6 +84,5 @@ pipeline {
                 '''
             }
         }
-        
     }
 }
