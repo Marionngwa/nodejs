@@ -6,31 +6,56 @@ pipeline {
         }
     }
 
+    environment {
+        SONAR_TOKEN = credentials('sonarqube') // Replace with your SonarQube token ID in Jenkins credentials
+    }
+
     stages {
         stage('Cleanup Previous Artifacts') {
             steps {
                 sh 'rm -f *.tgz'
             }
         }
+
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
             }
         }
+
+        stage('SonarQube Scan') {
+            steps {
+                script {
+                    def nodePath = sh(script: 'which node', returnStdout: true).trim()
+                    // Execute SonarScanner
+                    sh """
+                    sonar-scanner \
+                        -Dsonar.organization=marionngwa \
+                        -Dsonar.projectKey=Marionngwa_nodejs \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=https://sonarcloud.io \
+                        -Dsonar.login=${SONAR_TOKEN} \
+                        -Dsonar.nodejs.executable=${nodePath}
+                    """
+                }
+            }
+        }
+
         stage('Packaging The Artifact') {
             steps {
                 sh 'npm pack'
             }
         }
+        
         stage('Artifact Upload') {
-    steps {
-        sh 'curl -uadmin:AP6APkHxetchhfhHqpaawMctMhu -T \
-        *.tgz \
-        "http://ec2-3-83-18-39.compute-1.amazonaws.com:8081/artifactory/example-repo-local/"'
-    }
-}
-
-
-
+            steps {
+                sh '''
+                curl -u admin:AP6APkHxetchhfhHqpaawMctMhu -T \
+                *.tgz \
+                "http://ec2-3-83-18-39.compute-1.amazonaws.com:8081/artifactory/example-repo-local/"
+                '''
+            }
+        }
+        
     }
 }
