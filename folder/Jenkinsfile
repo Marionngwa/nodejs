@@ -7,8 +7,8 @@ pipeline{
         stage('Run nodejs container'){
             agent{
                 docker{
-                    image 'node:14'
-                    args 'root:root'
+                    image 'nodejs'
+                    args '-u root:root'
                 }
             }
             steps{
