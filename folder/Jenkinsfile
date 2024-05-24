@@ -1,54 +1,18 @@
-pipeline {
-    agent any
-
-    environment {
-        SONAR_TOKEN = credentials('sonarqube') // Replace with your SonarQube token ID in Jenkins credentials
+pipeline{
+    agent{
+        label 'ubuntu-server'
     }
 
-    stages {
-        stage('Cleanup Previous Artifacts') {
-            steps {
-                sh 'rm -f *.tgz'
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm install'
-            }
-        }
-
-        stage('SonarQube Scan') {
-            steps {
-                script {
-                    // Determine the path of the existing SonarQube Scanner
-                    def sonarScannerPath = sh(script: 'which sonar-scanner', returnStdout: true).trim()
-                    // Execute SonarScanner
-                    sh """
-                    ${sonarScannerPath} \
-                        -Dsonar.organization=marionngwa \
-                        -Dsonar.projectKey=Marionngwa_nodejs \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=https://sonarcloud.io \
-                        -Dsonar.login=${SONAR_TOKEN}
-                    """
+    stages{
+        stage('Run nodejs container'){
+            agent{
+                docker{
+                    image 'node:14'
+                    arg 'root:root'
                 }
             }
-        }
-
-        stage('Packaging The Artifact') {
-            steps {
-                sh 'npm pack'
-            }
-        }
-
-        stage('Artifact Upload') {
-            steps {
-                sh '''
-                curl -u admin:AP6APkHxetchhfhHqpaawMctMhu -T \
-                *.tgz \
-                "http://ec2-3-83-18-39.compute-1.amazonaws.com:8081/artifactory/example-repo-local/"
-                '''
+            steps{
+                sh 'npm install'
             }
         }
     }
