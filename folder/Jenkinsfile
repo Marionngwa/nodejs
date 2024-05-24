@@ -1,18 +1,22 @@
-pipeline{
-    agent{
-        label 'ubuntu-server'
-    }
+pipeline {
+    agent { label 'ubuntu-server' } // Specify the agent with the label 'ubuntu-server'
 
-    stages{
-        stage('Run nodejs container'){
-            agent{
-                docker{
-                    image 'nodejs'
-                    args '-u root:root'
+    stages {
+        
+        stage('Run nodejs container') {
+            agent {
+                docker {
+                    image 'node:14'
+                    args '-u root:root -v $PWD:/usr/src/app' // Bind mount the current workspace to /usr/src/app in the container
                 }
             }
-            steps{
-                sh 'npm install'
+            steps {
+                sh '''
+                    cd /usr/src/app
+
+                    # Install dependencies
+                    npm install
+                '''
             }
         }
     }
